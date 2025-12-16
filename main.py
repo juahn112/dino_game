@@ -8,11 +8,14 @@ pygame.display.set_caption("신소명 피하기")
 clock = pygame.time.Clock()
 running = True
 FPS = 60
+dt = 0
 
 background_img = pygame.image.load("img/upscaling_image.png")
 background_img = pygame.transform.scale(background_img, size)
-dt = 0
 
+bgm = pygame.mixer.Sound("bgm/bgm.ogg")
+bgm.set_volume(0.1)
+bgm.play(-1)
 
 player_img = pygame.image.load("img/player.png")
 player_img = pygame.transform.scale(player_img, (75, 75))
