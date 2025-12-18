@@ -24,6 +24,7 @@ enemy_img = pygame.image.load("img/enemy.png")
 enemy_img = pygame.transform.scale(enemy_img, (50, 50))
 
 player_pos = pygame.Vector2(size[0] // 2, 550)
+enemy_pos = pygame.Vector2(100, 100)
 
 while running:
     screen.blit(background_img, (0, 0))
@@ -37,6 +38,7 @@ while running:
     
     #pygame.draw.circle(screen, "blue", player_pos, 15)
     screen.blit(player_img, player_pos)
+    screen.blit(enemy_img, enemy_pos)
     
     keys = pygame.key.get_pressed()
     #if keys[pygame.K_UP]:
