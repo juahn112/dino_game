@@ -32,8 +32,8 @@ start_ticks = pygame.time.get_ticks()
 #이미지 설정
 background_img = pygame.image.load(resource_path("img/upscaling_image.png"))
 background_img = pygame.transform.scale(background_img, size)
-player_img = pygame.image.load(resource_path("img/player.png"))
-enemy_img = pygame.image.load(resource_path("img/enemy.png"))
+player_img = pygame.image.load(resource_path("img/player.png")).convert_alpha()
+enemy_img = pygame.image.load(resource_path("img/enemy.png")).convert_alpha()
 
 #SOUND 설정
 base_bgm = pygame.mixer.Sound(resource_path("bgm/bgm.ogg"))
@@ -48,6 +48,7 @@ class Player:
         self.img = pygame.transform.scale(player_img, (70, 70))
         self.rect = self.img.get_rect()
         self.rect.center = (size[0] // 2, 591)
+        self.player_mask = pygame.mask.from_surface(self.img)
         self.speed = 7
         self.alive = False
 
@@ -67,6 +68,7 @@ class Enemy:
         self.img = pygame.transform.scale(enemy_img, (50, 50))
         self.rect = self.img.get_rect()
         self.rect.topleft = (random.randint(0, size[0] - 50), -50)
+        self.enemy_mask = pygame.mask.from_surface(self.img)
         self.speed = 15
 
     def update(self):
@@ -87,6 +89,7 @@ def start_game():
 
 
 player = Player()
+enemy = Enemy()
 enemies = []
 ENEMY_EVENT = pygame.USEREVENT + 1
 pygame.time.set_timer(ENEMY_EVENT, 100)
@@ -136,8 +139,9 @@ while running:
         for enm in enemies[:]:
             enm.update()
             enm.draw(screen)
+            offset = (enm.rect.x - player.rect.x, enm.rect.y - player.rect.y)
 
-            if player.rect.colliderect(enm.rect) and player.alive:
+            if player.player_mask.overlap(enm.enemy_mask, offset) and player.alive:
                 print("충돌!")
                 player.alive = False
                 is_playing = False
