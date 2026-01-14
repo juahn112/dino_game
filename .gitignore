@@ -6,6 +6,8 @@ __pycache__/
 venv/
 .venv/
 
+.vscode/
+
 # PyInstaller 빌드 관련 폴더 및 파일
 build/
 dist/
